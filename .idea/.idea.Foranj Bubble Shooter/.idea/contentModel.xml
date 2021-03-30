@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Gamedev\Projects\Foranj Bubble Shooter" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Scripts" t="Include">
+          <e p="LoadedBall.cs" t="Include" />
+          <e p="Pathway.cs" t="Include" />
+          <e p="Slingshot.cs" t="Include" />
+          <e p="TrajectoryPoint.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Foranj Bubble Shooter.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+    <e p="C:\Users\kpblcke\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\kpblcke\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_Foranj Bubble Shooter.-1657486020.00" t="ExcludeRecursive" />
+  </component>
+</project>
