@@ -58,6 +58,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Ball.cs" />
+     <Compile Include="Assets\Scripts\BallLoader.cs" />
+     <Compile Include="Assets\Scripts\CustomPhysic.cs" />
+     <Compile Include="Assets\Scripts\FlyBall.cs" />
+     <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\Hole.cs" />
      <Compile Include="Assets\Scripts\LoadedBall.cs" />
      <Compile Include="Assets\Scripts\Pathway.cs" />
      <Compile Include="Assets\Scripts\Slingshot.cs" />

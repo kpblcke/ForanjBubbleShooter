@@ -7,68 +7,47 @@ public class Pathway : MonoBehaviour
 {
     [SerializeField]
     private int maxSteps = 10;
-    [SerializeField]
-    private float stepSize = 1f;
-
-    [SerializeField] 
-    private GameObject trajectoryObj;
-
-    [SerializeField]
-    private int layerMask;
-    private void Start()
-    {
-        layerMask = LayerMask.GetMask("Walls");
-    }
 
     public List<TrajectoryPoint> GetTrajectory(Vector2 ballPosition, Vector2 force)
     {
+        CustomPhysic customPhysic = CustomPhysic.getInstance();
         List<TrajectoryPoint> trajectoryPoints = new List<TrajectoryPoint>();
-        //Vector2 direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - ball.position).normalized;
         
-        TrajectoryPoint currentTrajectoryPoint = new TrajectoryPoint(ballPosition, force * stepSize); 
+        TrajectoryPoint currentTrajectoryPoint = new TrajectoryPoint(ballPosition, force);
+        trajectoryPoints.Add(currentTrajectoryPoint);
+        
         for (int i = 0; i < maxSteps; i++)
         {
-            currentTrajectoryPoint = GetNextTrajectoryPoint(currentTrajectoryPoint.Point, currentTrajectoryPoint.Velocity);
+            currentTrajectoryPoint = customPhysic.GetNextTrajectoryPoint(currentTrajectoryPoint.Point, currentTrajectoryPoint.Velocity);
             trajectoryPoints.Add(currentTrajectoryPoint);
         }
 
         return trajectoryPoints;
     }
 
-    private TrajectoryPoint GetNextTrajectoryPoint(Vector2 currentPoint, Vector2 currentVelocity)
+    public void DrawTrajectory(LineRenderer lineRenderer, List<TrajectoryPoint> points, float angleSpread)
     {
-        Debug.DrawRay(currentPoint, currentVelocity, Color.red, 10.0f);
-        RaycastHit2D hit = Physics2D.Raycast(currentPoint, currentVelocity, currentVelocity.magnitude, layerMask);
-            
-        if (hit.collider != null)
+        lineRenderer.positionCount = points.Count;
+        lineRenderer.widthMultiplier = 0.5f;
+        
+        for (int i = 0; i < points.Count; i++)
         {
-            Vector2 reflectDirection = Vector2.Reflect((hit.point - currentPoint).normalized, hit.normal);
-            // Draws a line from the normal of the object that you clicked
-            Debug.DrawRay(hit.point, reflectDirection, Color.green, 10.0f);
-            //Debug.DrawRay(hit.point, hit.normal, Color.yellow, 10.0f);
+            TrajectoryPoint point = points[i];
+            lineRenderer.SetPosition(i, point.Point);
+        }
+
+        if (angleSpread > 0 && points.Count > 0)
+        {
+            Vector2 supVector = Quaternion.Euler(0, 0, angleSpread) *
+                                (Vector2.up * Vector2.Distance(points[0].Point, points[1].Point));
             
-            return new TrajectoryPoint(hit.point + reflectDirection * 0.000001f, ApplyGravity(reflectDirection * currentVelocity.magnitude));
+            lineRenderer.widthMultiplier = 1f;
+            lineRenderer.widthCurve = AnimationCurve.Linear(0f, lineRenderer.widthMultiplier * 0f, 
+                1f, lineRenderer.widthMultiplier * Mathf.Abs(supVector.x) / CustomPhysic.getInstance().Timestep);
         }
         else
         {
-            return new TrajectoryPoint(currentPoint + currentVelocity, ApplyGravity(currentVelocity));
+            lineRenderer.widthCurve = AnimationCurve.Constant(0f, 1f, lineRenderer.widthMultiplier * 1f);
         }
-    }
-
-    public void DrawTrajectory(Transform atObj, List<TrajectoryPoint> points)
-    {
-        foreach (Transform child in atObj) {
-            Destroy(child.gameObject);
-        }
-        
-        foreach (var point in points)
-        {
-            Instantiate(trajectoryObj, point.Point, Quaternion.identity, atObj);
-        }
-    }
-
-    private Vector2 ApplyGravity(Vector2 force)
-    {
-        return new Vector2(force.x, force.y - 0.1f);
     }
 }
