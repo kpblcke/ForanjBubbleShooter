@@ -10,10 +10,8 @@ public class Slingshot : MonoBehaviour
     private Pathway _pathway;
     [SerializeField]
     private LoadedBall ball;
-
-    [SerializeField]
     private FlyBall _flyBall;
-
+    
     [SerializeField] 
     private float forceMultiply = 4f;
     [SerializeField] 
@@ -59,22 +57,25 @@ public class Slingshot : MonoBehaviour
     public void Fire()
     {
         StopAimBall();
-        ball.gameObject.SetActive(false);
         trajectoryShow.gameObject.SetActive(false);
-        FlyBall fly = Instantiate(_flyBall, ball.transform.position, Quaternion.identity);
+        _flyBall.transform.position = ball.transform.position;
+        _flyBall.gameObject.SetActive(true);
+        ball.gameObject.SetActive(false);
+
         Tuple<Vector2, bool> calculatedForce = CalculateForce();
+        _flyBall.SetFullForce(calculatedForce.Item2);
         if (calculatedForce.Item2)
         {
-            Vector2 randomizedVector = Quaternion.Euler(0, 0, -tensionAngleSpread) *
+            Vector2 randomizedVector = Quaternion.Euler(0, 0, Random.Range(-tensionAngleSpread, tensionAngleSpread)) *
                                     calculatedForce.Item1;
-            fly.UnPathFly(randomizedVector);
+            _flyBall.UnPathFly(randomizedVector);
         }
         else
         {
-            fly.UnPathFly(calculatedForce.Item1);
+            _flyBall.UnPathFly(calculatedForce.Item1);
         }
 
-        StartCoroutine(ElasticShot(fly.transform));
+        StartCoroutine(ElasticShot(_flyBall.transform));
     }
     
     public void StopAimBall()
@@ -87,8 +88,13 @@ public class Slingshot : MonoBehaviour
         rubber.SetPosition(1, atPosition);
     }
 
-    public void LoadNewBall(LoadedBall newBall)
+    public void LoadNewBall(FlyBall newBall)
     {
+        _flyBall = newBall;
+        _flyBall.transform.position = transform.position;
+        _flyBall.gameObject.SetActive(false);
+        
+        ball.ChangeType(newBall.Type);
         ball.transform.position = transform.position;
         ball.gameObject.SetActive(true);
         rubber.SetPosition(1, ball.transform.position);
@@ -116,7 +122,7 @@ public class Slingshot : MonoBehaviour
         
         rubberCenter.transform.position = obj.position;
 
-        while (!aiming)
+        while (!ball.isActiveAndEnabled)
         {
             rubber.SetPosition(1, rubberCenter.transform.position);
             yield return new WaitForEndOfFrame();

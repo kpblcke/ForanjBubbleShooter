@@ -1,8 +1,8 @@
 ﻿using System;
+using DefaultNamespace;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class LoadedBall : MonoBehaviour
+public class LoadedBall : Ball
 {
     [SerializeField]
     private Slingshot _slingshot;

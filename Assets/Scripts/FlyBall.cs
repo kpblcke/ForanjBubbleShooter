@@ -3,16 +3,19 @@ using System.Collections;
 using DefaultNamespace;
 using UnityEngine;
 
-public class FlyBall : MonoBehaviour
+public class FlyBall : Ball
 {
     private bool dropped = false;
-    private bool connected = false;
+    private bool fullForce = false;
+
+    private bool alreadyConnected = false;
     
     private CustomPhysic _customPhysic;
 
+    private Vector2 ballVelocity;
+
     private void Awake()
     {
-        
         _customPhysic = CustomPhysic.getInstance();
     }
 
@@ -21,9 +24,9 @@ public class FlyBall : MonoBehaviour
         StartCoroutine(Move(velocity));
     }
 
-    public void HitBall()
+    public void SetFullForce(bool isFull)
     {
-        connected = true;
+        fullForce = isFull;
     }
 
     public void Dropped()
@@ -35,11 +38,12 @@ public class FlyBall : MonoBehaviour
     IEnumerator Move(Vector2 velocity)
     {
         float timestep = _customPhysic.Timestep;
-        while (!dropped && !connected)
+        ballVelocity = velocity;
+        while (!dropped)
         {
-            TrajectoryPoint nextPoint = _customPhysic.GetNextTrajectoryPoint(transform.position, velocity);
+            TrajectoryPoint nextPoint = _customPhysic.GetNextTrajectoryPoint(transform.position, ballVelocity);
             transform.position = nextPoint.Point;
-            velocity = nextPoint.Velocity;
+            ballVelocity = nextPoint.Velocity;
             
             yield return new WaitForSeconds(timestep);
         }
@@ -47,10 +51,22 @@ public class FlyBall : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<Ball>())
+        BallConnected ballConnected = other.gameObject.GetComponent<BallConnected>();
+        if (ballConnected && !alreadyConnected)
         {
-            connected = true;
-            FindObjectOfType<GameController>().BallHit();
+            if (fullForce)
+            {
+                ballConnected.PopBall();
+                fullForce = false;
+            }
+            else
+            {
+                alreadyConnected = true;
+                ballConnected.ConnectBall(transform.position, Type);
+                FindObjectOfType<GameController>().BallHit();
+                gameObject.SetActive(false);
+                Destroy(gameObject);
+            }
         }
     }
 }
