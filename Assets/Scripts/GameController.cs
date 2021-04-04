@@ -8,19 +8,33 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        BallHit();
+        LoadBall();
     }
 
-    public void BallHit()
+    public void LoadBall()
     {
+        if (_slingshot.IsLoaded())
+        {
+            return;
+        }
         if (_ballLoader.IsBallsLeft())
         {
             _slingshot.LoadNewBall(_ballLoader.GetNewBall());
         }
         else
         {
-            Debug.Log("GAMEOVER");
+            Defeat();
         }
+    }
+
+    public void Win()
+    {
+        Debug.Log("Win");
+    }
+
+    public void Defeat()
+    {
+        Debug.Log("GAMEOVER");
     }
 
 }

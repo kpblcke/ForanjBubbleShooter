@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -17,16 +18,22 @@ namespace DefaultNamespace
         [SerializeField] private float yOffset = 0.42f;
         [SerializeField] private float divOffset = 0.25f;
         [SerializeField] private string levelName = "Level2";
-        private List<BallConnected> allBalls;
+        
+        private Dictionary<Vector2Int, BallConnected> allBalls;
+        private double minHangBalls = 0;
         
         private void Start()
         { 
             GenerateBalls();
         }
 
-        public List<BallConnected> GenerateBalls()
+        /// <summary>
+        /// Создать поле шаров
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<Vector2Int, BallConnected> GenerateBalls()
         {
-            allBalls = new List<BallConnected>();
+            allBalls = new Dictionary<Vector2Int, BallConnected>();
             var textFile = Resources.Load<TextAsset>(levelName);
             List<string> lines = new List<string>(textFile.text.Split('\n'));
             for(int l = 0; l < lines.Count ; l++)
@@ -38,46 +45,125 @@ namespace DefaultNamespace
                     {
                         BallConnected newBall = Instantiate(ballPref, GetOffsetByGridPos(new Vector2Int(i, l)), Quaternion.identity, startSpawn);
                         newBall.name = i + "," + l;
-                        newBall.SetOnGrid(i, l);
-                        newBall.SetParents(FindParents(i, l));
+                        Vector2Int gridPos = new Vector2Int(i, l);
+                        newBall.SetOnGrid(gridPos);
+                        if (l == 0)
+                        {
+                            newBall.HangUp();
+                            minHangBalls++;
+                        }
                         newBall.ChangeType(loadBallTypes[Int32.Parse(line[i].ToString())]);
-                        allBalls.Add(newBall);
+                        allBalls.Add(gridPos, newBall);
                     }
                 }
             }
 
             foreach (var ball in allBalls)
             {
-                ball.SetNeighboors(FindNeighboors(ball.GridPos));
+                if (FindNeighboors(ball.Value.GridPos).Any(b => b.Hanging))
+                {
+                    ball.Value.HangUp();
+                }
             }
-            
+
+            minHangBalls *= 0.7f;
             return allBalls;
         }
 
+        /// <summary>
+        /// запустить взрыв шаров одного и того же типа
+        /// </summary>
+        /// <param name="startBall"></param>
         public void StartPopSequence(BallConnected startBall)
         {
+            HashSet<BallConnected> ballsToPop = new HashSet<BallConnected>();
             //находим все шары, которые надо лопнуть
-            //лопаем шары
-            //пересчитываем какие шары еще подвешены
-            
-            List<BallConnected> ballsToPop = new List<BallConnected>();
-            ballsToPop.AddRange(GetConnectedBlock(startBall, null));
-            ballsToPop.Add(startBall);
-            Debug.Log("balls to pop " + ballsToPop.Count);
-            foreach (var ball in ballsToPop)
+            foreach (var ball in GetConnectedBlockSameType(startBall, null))
             {
-                if (allBalls.Contains(ball))
+                ballsToPop.Add(ball);
+            }
+
+            if (ballsToPop.Count > 1)
+            {
+                //лопаем шары
+                foreach (var ball in ballsToPop)
                 {
-                    ball.PopBall();
+                    if (allBalls.Values.Contains(ball))
+                    {
+                        ball.PopBall();
+                        RemoveBall(ball);
+                    }
                 }
+                DropUnHangBalls();
             }
         }
 
-        public void RemoveBall(BallConnected theBall)
+        private void RemoveBall(BallConnected theBall)
         {
-            allBalls.Remove(theBall);
+            allBalls.Remove(theBall.GridPos);
+        }
+        
+        /// <summary>
+        /// Пробить шар насквозь и занять его место
+        /// </summary>
+        /// <param name="ballConnected"></param>
+        public void SmackBall(BallConnected ballConnected, BallType newType)
+        {
+            ballConnected.PopBall();
+            RemoveBall(ballConnected);
+            
+            BallConnected newBall = Instantiate(ballPref, GetOffsetByGridPos(ballConnected.GridPos), 
+                Quaternion.identity, startSpawn);
+            newBall.ChangeType(newType);
+            newBall.SetOnGrid(ballConnected.GridPos);
+            allBalls.Add(ballConnected.GridPos, newBall);
+
+            StartPopSequence(newBall);
+            FindObjectOfType<GameController>().LoadBall();
+        }
+ 
+        /// <summary>
+        /// Уронить все не подвешенные шары
+        /// </summary>
+        private void DropUnHangBalls()
+        {
+            List<BallConnected> fallOffBalls = new List<BallConnected>(allBalls.Values);
+            int curHangBalls = 0;
+
+            //пересчитываем какие шары еще подвешены
+            foreach (var keys in allBalls.Keys.Where(d => d.y == 0).ToList())
+            {
+                curHangBalls++;
+                BallConnected ball;
+                if (allBalls.TryGetValue(keys, out ball))
+                {
+                    foreach (var hangBall in GetConnectedBlock(ball, new List<BallConnected>()))
+                    {
+                        hangBall.HangUp();
+                        fallOffBalls.Remove(hangBall);
+                    }
+                }
+            }
+            
+            //Роняем не подвешенные шары
+            foreach (var ball in fallOffBalls)
+            {
+                ball.FallOff();
+                RemoveBall(ball);
+            }
+
+            if (curHangBalls < minHangBalls)
+            {
+                Debug.Log("Win");
+            }
         }
 
+        /// <summary>
+        /// поставить шар на поле
+        /// </summary>
+        /// <param name="toBall"></param>
+        /// <param name="atPosition"></param>
+        /// <param name="type"></param>
         public void ConnectBall(BallConnected toBall, Vector2 atPosition, BallType type)
         {
             Vector2 ballPosition = toBall.transform.position;
@@ -86,22 +172,18 @@ namespace DefaultNamespace
             BallConnected newBall = Instantiate(ballPref, GetOffsetByGridPos(gridPos), 
                 Quaternion.identity, startSpawn);
             newBall.ChangeType(type);
-            Debug.Log(gridPos);
-            newBall.SetOnGrid(gridPos.x, gridPos.y);
-            newBall.SetNeighboors(FindNeighboors(gridPos));
-            allBalls.Add(newBall);
-
-            foreach (var neighboor in newBall.Neighboor)
-            {
-                neighboor.AddNeighboor(newBall);
-                
-                if (neighboor.Type == newBall.Type)
-                {
-                    StartPopSequence(newBall);
-                }
-            }
+            newBall.SetOnGrid(gridPos);
+            allBalls.Add(gridPos, newBall);
+            StartPopSequence(newBall);
+            FindObjectOfType<GameController>().LoadBall();
         }
 
+        /// <summary>
+        /// Находим ближайшую ячейку, под углом
+        /// </summary>
+        /// <param name="gridCell">ячейка относительно которой будем смотреть</param>
+        /// <param name="angle">угол падения на ячейку</param>
+        /// <returns></returns>
         private Vector2Int GetNeighboorGridCellByAngle(Vector2Int gridCell, float angle)
         {
             if (angle >= 0f && angle < 60f)
@@ -126,6 +208,11 @@ namespace DefaultNamespace
             }
         }
 
+        /// <summary>
+        /// Позиция на игровом поле, относительно ячейки
+        /// </summary>
+        /// <param name="gridCell">ячейка</param>
+        /// <returns></returns>
         private Vector2 GetOffsetByGridPos(Vector2Int gridCell)
         {
             Vector2 offset = startSpawn.position +
@@ -133,72 +220,104 @@ namespace DefaultNamespace
                                  -gridCell.y * yOffset);
             return offset;
         }
-
-        private List<BallConnected> GetConnectedBlock(BallConnected startBall, List<BallConnected> checkedBalls)
+        
+        /// <summary>
+        /// Все шары, до которых можно дойти относительно стартового. Вместе образуют единый блок.
+        /// </summary>
+        /// <param name="startBall">Начальный шар</param>
+        /// <param name="checkedBalls"></param>
+        /// <returns></returns>
+        private HashSet<BallConnected> GetConnectedBlock(BallConnected startBall, List<BallConnected> checkedBalls)
         {
             if (checkedBalls == null)
             {
                 checkedBalls = new List<BallConnected>();
             }
-            List<BallConnected> connectedBalls = new List<BallConnected>();
+            var connected = new HashSet<BallConnected>();
             
             checkedBalls.Add(startBall);
             
-            foreach (var checkBall in startBall.Neighboor)
+            foreach (var checkBall in FindNeighboors(startBall.GridPos))
             {
-                if (checkedBalls.Contains(checkBall) || connectedBalls.Contains(checkBall))
+                if (checkedBalls.Contains(checkBall))
                 {
-                    break;
+                    continue;
+                }
+                var subconnected = GetConnectedBlock(checkBall, checkedBalls);
+                foreach (var ball in subconnected)
+                {
+                    connected.Add(ball);
+                }
+                
+                checkedBalls.Add(checkBall);
+            }
+
+            connected.Add(startBall);
+
+            return connected;
+        }
+
+        /// <summary>
+        /// Все шары того же типа, что и стартовый, до которых можно дойти.
+        /// </summary>
+        /// <param name="startBall">Начальный шар</param>
+        /// <param name="checkedBalls"></param>
+        /// <returns></returns>
+        private HashSet<BallConnected> GetConnectedBlockSameType(BallConnected startBall, List<BallConnected> checkedBalls)
+        {
+            if (checkedBalls == null)
+            {
+                checkedBalls = new List<BallConnected>();
+            }
+            var connected = new HashSet<BallConnected>();
+            
+            checkedBalls.Add(startBall);
+            
+            foreach (var checkBall in FindNeighboors(startBall.GridPos))
+            {
+                if (checkedBalls.Contains(checkBall))
+                {
+                    continue;
                 }
                 if (checkBall.Type == startBall.Type)
                 {
-                    connectedBalls.Add(checkBall);
-                    connectedBalls.AddRange(GetConnectedBlock(checkBall, checkedBalls));
+                    var subconnected = GetConnectedBlockSameType(checkBall, checkedBalls);
+                    foreach (var ball in subconnected)
+                    {
+                        connected.Add(ball);
+                    }
                 }
-                else
-                {
-                    checkedBalls.Add(checkBall);
-                }
+                checkedBalls.Add(checkBall);
             }
 
-            return connectedBalls;
+            connected.Add(startBall);
+
+            return connected;
         }
 
+        /// <summary>
+        /// Найти всех существующих соседей у блока 
+        /// </summary>
+        /// <param name="gridPos"></param>
+        /// <returns></returns>
         private List<BallConnected> FindNeighboors(Vector2Int gridPos)
         {
             List<BallConnected> neighboors = new List<BallConnected>();
             
             foreach (var ball in allBalls)
             {
-                if ((ball.GridPos == gridPos + Vector2Int.left) ||
-                    (ball.GridPos == gridPos + Vector2Int.right) ||
-                    (ball.GridPos == gridPos + Vector2Int.up) ||
-                    (ball.GridPos == gridPos + Vector2Int.down) ||
-                    (ball.GridPos == gridPos + new Vector2Int((gridPos.y % 2) == 0 ? -1 : 1, - 1)) ||
-                    (ball.GridPos == gridPos + new Vector2Int((gridPos.y % 2) == 0 ? -1 : 1, 1)))
+                Vector2Int ballPos = ball.Key;
+                if ((ballPos == gridPos + Vector2Int.left) ||
+                    (ballPos == gridPos + Vector2Int.right) ||
+                    (ballPos == gridPos + Vector2Int.up) ||
+                    (ballPos == gridPos + Vector2Int.down) ||
+                    (ballPos == gridPos + new Vector2Int((gridPos.y % 2) == 0 ? -1 : 1, - 1)) ||
+                    (ballPos == gridPos + new Vector2Int((gridPos.y % 2) == 0 ? -1 : 1, 1)))
                 {
-                    Debug.Log("neighbor with:" + ball.GridPos);
-                    neighboors.Add(ball);
+                    neighboors.Add(ball.Value);
                 }
             }
             return neighboors;
-        }
-
-        private List<BallConnected> FindParents(int x, int y)
-        {
-            List<BallConnected> parents = new List<BallConnected>();
-            if (y <= 0)
-            {
-                return parents;
-            }   
-            foreach (var ball in allBalls)
-            {
-                if (ball.GridPos == new Vector2Int(x, y - 1) || ball.GridPos == new Vector2Int(x + ((x % 2) == 0? - 1 : 1), y - 1))
-                {
-                    parents.Add(ball);
-                }
-            }
-            return parents;
         }
     }
 }

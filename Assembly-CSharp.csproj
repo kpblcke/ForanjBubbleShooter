@@ -63,6 +63,7 @@
      <Compile Include="Assets\Scripts\BallGrid.cs" />
      <Compile Include="Assets\Scripts\BallLoader.cs" />
      <Compile Include="Assets\Scripts\BallType.cs" />
+     <Compile Include="Assets\Scripts\Constants.cs" />
      <Compile Include="Assets\Scripts\CustomPhysic.cs" />
      <Compile Include="Assets\Scripts\FlyBall.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
@@ -70,10 +71,12 @@
      <Compile Include="Assets\Scripts\LevelLoader.cs" />
      <Compile Include="Assets\Scripts\LoadedBall.cs" />
      <Compile Include="Assets\Scripts\Pathway.cs" />
+     <Compile Include="Assets\Scripts\ScoreManager.cs" />
      <Compile Include="Assets\Scripts\Slingshot.cs" />
      <Compile Include="Assets\Scripts\TrajectoryPoint.cs" />
      <None Include="Assets\Resources\Level1.txt" />
      <None Include="Assets\Resources\Level2.txt" />
+     <None Include="Assets\Resources\Level3.txt" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Gamedev/Projects/Foranj Bubble Shooter/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

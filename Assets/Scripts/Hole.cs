@@ -1,4 +1,5 @@
 ﻿using System;
+using DefaultNamespace;
 using UnityEngine;
 
 public class Hole : MonoBehaviour
@@ -9,7 +10,14 @@ public class Hole : MonoBehaviour
         if (flyball)
         {
             flyball.Dropped();
-            FindObjectOfType<GameController>().BallHit();
+            FindObjectOfType<GameController>().LoadBall();
+        }
+        
+        BallConnected ballConnected = other.GetComponent<BallConnected>();
+        if (ballConnected)
+        {
+            ballConnected.PopBall();
+            FindObjectOfType<GameController>().LoadBall();
         }
     }
 }

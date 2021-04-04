@@ -19,31 +19,28 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="410b1286-1052-4fec-921e-c658710f472c" name="Default Changelist" comment="-add CustomPhysic&#10;-add SlingshotSpread&#10;-add trajectory show">
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/Level2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/Level2.txt.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/BallConnected.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/BallConnected.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/BallGrid.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/BallGrid.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/BallType.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/BallType.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLoader.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLoader.cs.meta" afterDir="false" />
+    <list default="true" id="410b1286-1052-4fec-921e-c658710f472c" name="Default Changelist" comment="-add prefabs">
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Level3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Level3.txt.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Constants.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Constants.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/ScoreManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/ScoreManager.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Foranj Bubble Shooter/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Foranj Bubble Shooter/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Foranj Bubble Shooter/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Foranj Bubble Shooter/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PrefabObjects/Ball.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PrefabObjects/Ball.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PrefabObjects/ConnectedBall.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PrefabObjects/ConnectedBall.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PrefabObjects/FlyBall.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PrefabObjects/FlyBall.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PrefabObjects/LoadedBall.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PrefabObjects/LoadedBall.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Level2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Level2.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameplayScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameplayScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ball.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ball.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BallLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BallLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BallConnected.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BallConnected.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BallGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BallGrid.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/FlyBall.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FlyBall.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LoadedBall.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LoadedBall.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Hole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Hole.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Pathway.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Pathway.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Slingshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Slingshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,20 +68,25 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/TrajectoryPoint.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Рщду.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CustomPhysic.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Pathway.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Hole.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LoadedBall.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Ball.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/BallLoader.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Slingshot.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/BallType.cs" />
         <option value="$PROJECT_DIR$/Assets/GameData/Resources/Level1.txt" />
         <option value="$PROJECT_DIR$/Assets/Resources/Level1.txt" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/FlyBall.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/BallConnected.cs" />
-        <option value="$PROJECT_DIR$/Assets/Resources/Level2.txt" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LevelLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GridCell.cs" />
+        <option value="$PROJECT_DIR$/Assets/Resources/Level2.txt" />
+        <option value="$PROJECT_DIR$/Assets/Resources/Level3.txt" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Pathway.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Hole.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Slingshot.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/FlyBall.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Consts.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Constants.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ScoreManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/BallConnected.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/BallGrid.cs" />
       </list>
     </option>
@@ -130,7 +132,7 @@
       <option name="presentableId" value="Default" />
       <updated>1617092313967</updated>
       <workItem from="1617092333795" duration="20436000" />
-      <workItem from="1617257398858" duration="64496000" />
+      <workItem from="1617257398858" duration="81933000" />
     </task>
     <task id="LOCAL-00001" summary="-add CustomPhysic&#10;-add SlingshotSpread&#10;-add trajectory show">
       <created>1617302479448</created>
@@ -139,7 +141,21 @@
       <option name="project" value="LOCAL" />
       <updated>1617302479448</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="-add gridcell logic&#10;-add level generator&#10;-add balltypes">
+      <created>1617380842427</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1617380842427</updated>
+    </task>
+    <task id="LOCAL-00003" summary="-add prefabs">
+      <created>1617380862441</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1617380862441</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,7 +177,9 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="-add CustomPhysic&#10;-add SlingshotSpread&#10;-add trajectory show" />
-    <option name="LAST_COMMIT_MESSAGE" value="-add CustomPhysic&#10;-add SlingshotSpread&#10;-add trajectory show" />
+    <MESSAGE value="-add gridcell logic&#10;-add level generator&#10;-add balltypes" />
+    <MESSAGE value="-add prefabs" />
+    <option name="LAST_COMMIT_MESSAGE" value="-add prefabs" />
   </component>
   <component name="WindowStateProjectService">
     <state x="807" y="418" key="Github.ShareDialog" timestamp="1617135688035">
@@ -172,17 +190,17 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="691" y="226" key="Github.UntrackedFilesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1617135791842" />
-    <state x="769" y="221" key="RiderGenerateDialog" timestamp="1617367598891">
+    <state x="769" y="221" key="RiderGenerateDialog" timestamp="1617533753833">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="769" y="221" key="RiderGenerateDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1617367598891" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1617302483939">
+    <state x="769" y="221" key="RiderGenerateDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1617533753833" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1617380868421">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1617302483939" />
-    <state x="772" y="255" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog" timestamp="1617302409147">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1617380868421" />
+    <state x="772" y="255" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog" timestamp="1617380831322">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="772" y="255" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1617302409147" />
+    <state x="772" y="255" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1617380831322" />
   </component>
 </project>

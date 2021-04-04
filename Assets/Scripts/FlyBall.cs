@@ -56,17 +56,14 @@ public class FlyBall : Ball
         {
             if (fullForce)
             {
-                ballConnected.PopBall();
-                fullForce = false;
+                FindObjectOfType<BallGrid>().SmackBall(ballConnected, Type);
             }
             else
             {
-                alreadyConnected = true;
-                ballConnected.ConnectBall(transform.position, Type);
-                FindObjectOfType<GameController>().BallHit();
-                gameObject.SetActive(false);
-                Destroy(gameObject);
+                FindObjectOfType<BallGrid>().ConnectBall(ballConnected, transform.position, Type);
             }
+            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }

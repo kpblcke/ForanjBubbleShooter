@@ -47,7 +47,7 @@ public class Pathway : MonoBehaviour
         }
         else
         {
-            lineRenderer.widthCurve = AnimationCurve.Constant(0f, 1f, lineRenderer.widthMultiplier * 1f);
+            lineRenderer.widthCurve = AnimationCurve.Constant(0f, 1f, lineRenderer.widthMultiplier * .5f);
         }
     }
 }

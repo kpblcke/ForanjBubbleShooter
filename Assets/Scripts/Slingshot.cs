@@ -20,6 +20,7 @@ public class Slingshot : MonoBehaviour
     private float tensionAngleSpread = 30f;
     
     private bool aiming = false;
+    private bool loaded = false;
 
     [SerializeField] 
     private LineRenderer trajectoryShow;
@@ -76,6 +77,7 @@ public class Slingshot : MonoBehaviour
         }
 
         StartCoroutine(ElasticShot(_flyBall.transform));
+        loaded = false;
     }
     
     public void StopAimBall()
@@ -98,6 +100,12 @@ public class Slingshot : MonoBehaviour
         ball.transform.position = transform.position;
         ball.gameObject.SetActive(true);
         rubber.SetPosition(1, ball.transform.position);
+        loaded = true;
+    }
+
+    public bool IsLoaded()
+    {
+        return loaded;
     }
     
     IEnumerator DrawAimTrajectory()

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6333777873084597641}
   - component: {fileID: 6333777873084597647}
   - component: {fileID: 6333777873084597646}
-  m_Layer: 0
-  m_Name: Ball
+  m_Layer: 5
+  m_Name: LoadedBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6333777873242040540}
   - component: {fileID: 6333777873242040541}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}

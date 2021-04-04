@@ -12,46 +12,32 @@ namespace DefaultNamespace
 
         private Rigidbody2D _rigidbody2D;
         
-        private List<BallConnected> parents = new List<BallConnected>();
-
-        [SerializeField]
-        private List<BallConnected> neighboor = new List<BallConnected>();
-
         [SerializeField] private bool hanging;
         [SerializeField] private float wiggleMultiply = 20f;
-
-        public List<BallConnected> Parents => parents;
-
-        public List<BallConnected> Neighboor => neighboor;
-
         public bool Hanging => hanging;
 
         public Vector2Int GridPos => gridPos;
 
-        public void SetParents(List<BallConnected> newParents)
+        public void HangUp()
         {
-            parents = newParents;
+            hanging = true;
+            joint.enabled = true;
         }
 
-        public void SetNeighboors(List<BallConnected> newNeighboors)
+        private void Awake()
         {
-            neighboor = newNeighboors;
+            joint = GetComponent<SpringJoint2D>();
         }
-
-        public void AddNeighboor(BallConnected newNeighboor)
-        {
-            neighboor.Add(newNeighboor);
-        }
+        
         private void Start()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
-            joint = GetComponent<SpringJoint2D>();
             joint.connectedAnchor = transform.position;
         }
 
-        public void SetOnGrid(int x, int y)
+        public void SetOnGrid(Vector2Int gridPos)
         {
-            gridPos = new Vector2Int(x, y);
+            this.gridPos = gridPos;
         }
 
         public void Wiggle(Vector2 force)
@@ -61,14 +47,17 @@ namespace DefaultNamespace
 
         public void PopBall()
         {
-            FindObjectOfType<BallGrid>().RemoveBall(this);
             gameObject.SetActive(false);
+            FindObjectOfType<ScoreManager>().AddToScore(Type.Score);
             Destroy(gameObject);
         }
-
-        public void ConnectBall(Vector2 atPosition, BallType type)
+        
+        public void FallOff()
         {
-            FindObjectOfType<BallGrid>().ConnectBall(this, atPosition, type);
+            gameObject.layer = Constants.DROPPED_LAYER;
+            hanging = false;
+            joint.enabled = false;
+            Destroy(gameObject, 3f);
         }
     }
 }
