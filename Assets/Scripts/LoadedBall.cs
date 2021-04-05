@@ -7,6 +7,11 @@ public class LoadedBall : Ball
     [SerializeField]
     private Slingshot _slingshot;
 
+    public void StopInteraction()
+    {
+        GetComponent<Collider2D>().enabled = false;
+    }
+    
     private void Start()
     {
         if (!_slingshot)

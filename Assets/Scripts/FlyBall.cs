@@ -54,6 +54,7 @@ public class FlyBall : Ball
         BallConnected ballConnected = other.gameObject.GetComponent<BallConnected>();
         if (ballConnected && !alreadyConnected)
         {
+            alreadyConnected = true;
             if (fullForce)
             {
                 FindObjectOfType<BallGrid>().SmackBall(ballConnected, Type);

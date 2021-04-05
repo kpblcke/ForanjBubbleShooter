@@ -1,11 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class GameController : Singleton<GameController>
 {
     [SerializeField] private BallLoader _ballLoader;
     [SerializeField] private Slingshot _slingshot;
 
+    [SerializeField] private GameObject winCanvas;
+    [SerializeField] private GameObject loseCanvas;
     private void Start()
     {
         LoadBall();
@@ -29,12 +31,17 @@ public class GameController : MonoBehaviour
 
     public void Win()
     {
-        Debug.Log("Win");
+        winCanvas.SetActive(true);
+        _slingshot.Unload();
     }
 
     public void Defeat()
     {
-        Debug.Log("GAMEOVER");
+        if (!winCanvas.activeInHierarchy)
+        {
+            loseCanvas.SetActive(true);
+            _slingshot.Unload();
+        }
     }
 
 }

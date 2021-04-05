@@ -27,7 +27,7 @@ namespace DefaultNamespace
         public void ChangeType(BallType newType)
         {
             _type = newType;
-            _spriteRenderer.sprite = _type.BallSprite;
+            InitColor();
         }
     }
 }

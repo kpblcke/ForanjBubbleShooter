@@ -10,10 +10,9 @@ namespace DefaultNamespace
             
         private SpringJoint2D joint;
 
-        private Rigidbody2D _rigidbody2D;
-        
+        private Animator _animator;
+
         [SerializeField] private bool hanging;
-        [SerializeField] private float wiggleMultiply = 20f;
         public bool Hanging => hanging;
 
         public Vector2Int GridPos => gridPos;
@@ -27,11 +26,11 @@ namespace DefaultNamespace
         private void Awake()
         {
             joint = GetComponent<SpringJoint2D>();
+            _animator = GetComponent<Animator>();
         }
         
         private void Start()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
             joint.connectedAnchor = transform.position;
         }
 
@@ -40,24 +39,32 @@ namespace DefaultNamespace
             this.gridPos = gridPos;
         }
 
-        public void Wiggle(Vector2 force)
-        {
-            _rigidbody2D.AddForce(force * wiggleMultiply);
-        }
-
+        /// <summary>
+        /// Лопнуть шар и добавить очки
+        /// </summary>
         public void PopBall()
         {
-            gameObject.SetActive(false);
+            gameObject.layer = Constants.DROPPED_LAYER;
+            _animator.enabled = true;
             FindObjectOfType<ScoreManager>().AddToScore(Type.Score);
-            Destroy(gameObject);
         }
-        
+
+        /// <summary>
+        /// Уронить шар
+        /// </summary>
         public void FallOff()
         {
             gameObject.layer = Constants.DROPPED_LAYER;
             hanging = false;
             joint.enabled = false;
-            Destroy(gameObject, 3f);
+        }
+
+        /// <summary>
+        /// Используется в анимации
+        /// </summary>
+        public void Kill()
+        {
+            Destroy(gameObject);
         }
     }
 }

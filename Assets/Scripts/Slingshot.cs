@@ -55,6 +55,9 @@ public class Slingshot : MonoBehaviour
         StartCoroutine(DrawAimTrajectory());
     }
 
+    /// <summary>
+    /// Запустить шар
+    /// </summary>
     public void Fire()
     {
         StopAimBall();
@@ -84,12 +87,20 @@ public class Slingshot : MonoBehaviour
     {
         aiming = false;
     }
+    
+    public void Unload()
+    {
+        ball.StopInteraction();
+    }
 
     private void DrawElastic(Vector3 atPosition)
     {
         rubber.SetPosition(1, atPosition);
     }
 
+    /// <summary>
+    /// загрузить новый шар для выстрела
+    /// </summary>
     public void LoadNewBall(FlyBall newBall)
     {
         _flyBall = newBall;
@@ -116,7 +127,7 @@ public class Slingshot : MonoBehaviour
             _points = _pathway.GetTrajectory(ball.transform.position, forceAndType.Item1);
             _pathway.DrawTrajectory(trajectoryShow, _points, forceAndType.Item2 ? tensionAngleSpread : 0f);
             DrawElastic(ball.transform.position);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForEndOfFrame();
         }
     }
     

@@ -10,14 +10,14 @@ public class Hole : MonoBehaviour
         if (flyball)
         {
             flyball.Dropped();
-            FindObjectOfType<GameController>().LoadBall();
+            GameController.instance.LoadBall();
         }
         
         BallConnected ballConnected = other.GetComponent<BallConnected>();
         if (ballConnected)
         {
             ballConnected.PopBall();
-            FindObjectOfType<GameController>().LoadBall();
+            GameController.instance.LoadBall();
         }
     }
 }

@@ -6,8 +6,6 @@
       <e p="Assets" t="Include">
         <e p="Resources" t="Include">
           <e p="Level1.txt" t="Include" />
-          <e p="Level2.txt" t="Include" />
-          <e p="Level3.txt" t="Include" />
         </e>
         <e p="Scripts" t="Include">
           <e p="Ball.cs" t="Include" />
@@ -21,9 +19,11 @@
           <e p="GameController.cs" t="Include" />
           <e p="Hole.cs" t="Include" />
           <e p="LevelLoader.cs" t="Include" />
+          <e p="LinksManager.cs" t="Include" />
           <e p="LoadedBall.cs" t="Include" />
           <e p="Pathway.cs" t="Include" />
           <e p="ScoreManager.cs" t="Include" />
+          <e p="Singleton.cs" t="Include" />
           <e p="Slingshot.cs" t="Include" />
           <e p="TrajectoryPoint.cs" t="Include" />
         </e>

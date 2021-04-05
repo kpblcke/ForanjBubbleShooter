@@ -17,13 +17,15 @@ namespace DefaultNamespace
         [SerializeField] private float xOffset = 0.5f;
         [SerializeField] private float yOffset = 0.42f;
         [SerializeField] private float divOffset = 0.25f;
-        [SerializeField] private string levelName = "Level2";
+        [SerializeField] private string levelName = "Level1";
         
         private Dictionary<Vector2Int, BallConnected> allBalls;
         private double minHangBalls = 0;
+        private GameController _gameController;
         
         private void Start()
-        { 
+        {
+            _gameController = GameController.instance;
             GenerateBalls();
         }
 
@@ -66,7 +68,7 @@ namespace DefaultNamespace
                 }
             }
 
-            minHangBalls *= 0.7f;
+            minHangBalls *= 0.3f;
             return allBalls;
         }
 
@@ -96,6 +98,10 @@ namespace DefaultNamespace
                 }
                 DropUnHangBalls();
             }
+            else
+            {
+                startBall.HangUp();
+            }
         }
 
         private void RemoveBall(BallConnected theBall)
@@ -119,7 +125,7 @@ namespace DefaultNamespace
             allBalls.Add(ballConnected.GridPos, newBall);
 
             StartPopSequence(newBall);
-            FindObjectOfType<GameController>().LoadBall();
+            _gameController.LoadBall();
         }
  
         /// <summary>
@@ -154,7 +160,7 @@ namespace DefaultNamespace
 
             if (curHangBalls < minHangBalls)
             {
-                Debug.Log("Win");
+                _gameController.Win();
             }
         }
 
@@ -175,7 +181,7 @@ namespace DefaultNamespace
             newBall.SetOnGrid(gridPos);
             allBalls.Add(gridPos, newBall);
             StartPopSequence(newBall);
-            FindObjectOfType<GameController>().LoadBall();
+            _gameController.LoadBall();
         }
 
         /// <summary>

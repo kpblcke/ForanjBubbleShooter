@@ -48,7 +48,7 @@ MonoBehaviour:
     type: 3}
   nextBall: {fileID: 6152378577813095370}
   ballLeftText: {fileID: 0}
-  ballsCount: 8
+  ballsCount: 9
   loadBallTypes:
   - {fileID: 11400000, guid: 97facfe9af995f24a8dde89893ffe3c1, type: 2}
   - {fileID: 11400000, guid: f402a9dc0bcf59b49a9ef94e23877f6d, type: 2}
