@@ -161,6 +161,10 @@ namespace DefaultNamespace
             if (curHangBalls < minHangBalls)
             {
                 _gameController.Win();
+                foreach (var ball in allBalls)
+                {
+                    ball.Value.FallOff();
+                }
             }
         }
 
